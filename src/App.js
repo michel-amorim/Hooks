@@ -1,35 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import P from 'prop-types';
 
-const eventFn = () => {
-  console.log('h1 clicado');
+const Button = ({ incrementButton }) => {
+  return <button onClick={() => incrementButton(100)}>+</button>;
+};
+
+Button.propTypes = {
+  incrementButton: P.func,
 };
 
 function App() {
   const [counter, setCounter] = useState(0);
-  const [counter2, setCounter2] = useState(0);
 
-  useEffect(() => {
-    document.querySelector('h1')?.addEventListener('click', eventFn);
-
-    return () => {
-      document.querySelector('h1')?.removeEventListener('click', eventFn);
-    };
-  }, []);
-
-  // Com dependencia - executa toda vez que a dependecia mudar
-  useEffect(() => {
-    console.log('C1', counter, 'C2', counter2);
-  }, [counter, counter2]);
+  const incrementCounter = (num) => {
+    setCounter(counter + num);
+  };
 
   return (
     <div className="App">
-      <h1>
-        C1: {counter} C2: {counter2}
-      </h1>
-      <button onClick={() => setCounter(counter + 1)}>+</button>
-      <button onClick={() => setCounter2(counter2 + 1)}>(+)</button>
+      <h1>C1: {counter}</h1>
+      <Button incrementButton={incrementCounter} />
     </div>
   );
 }
