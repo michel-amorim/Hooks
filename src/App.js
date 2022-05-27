@@ -1,11 +1,11 @@
-import logo from './logo.svg';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
-import { useState } from 'react';
 import P from 'prop-types';
 
-const Button = ({ incrementButton }) => {
+const Button = React.memo(function Button({ incrementButton }) {
+  console.log('Filho, renderizou');
   return <button onClick={() => incrementButton(100)}>+</button>;
-};
+});
 
 Button.propTypes = {
   incrementButton: P.func,
@@ -14,9 +14,11 @@ Button.propTypes = {
 function App() {
   const [counter, setCounter] = useState(0);
 
-  const incrementCounter = (num) => {
-    setCounter(counter + num);
-  };
+  const incrementCounter = useCallback((num) => {
+    setCounter((c) => c + num);
+  }, []);
+
+  console.log('Pai, renderizou');
 
   return (
     <div className="App">
